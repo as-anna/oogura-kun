@@ -34,7 +34,7 @@ async def on_message(message):
         await message.channel.send("Okaeri!")
 
 
-@bot.command(name='time')
+@bot.command(name='time', help='tells current pst time')
 async def time(ctx):
     current_time = datetime.now().strftime("%H:%M:%S")
     await ctx.send(current_time)

@@ -30,7 +30,7 @@ async def on_member_join(member):
     )
 
 
-@bot.command(name='time', help='tells current pst time')
+@bot.command(name='time', help='Tells current time given a timezone')
 async def time(ctx, *args):
 
     if len(args) == 1 or len(args) == 3:

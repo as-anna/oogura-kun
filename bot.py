@@ -32,28 +32,38 @@ async def on_member_join(member):
 
 @bot.command(name='time', help='tells current pst time')
 async def time(ctx, *args):
-    if len(args) == 0:
-        return
-    elif len(args) > 0:
+
+    if len(args) == 1 or len(args) == 3:
         try:
             tz1 = pytz.timezone(tz_names[args[0].upper()])
         except KeyError:
             await ctx.send("Not a valid timezone")
             return
-        date_time = datetime.now(tz1)
+        date_time1 = datetime.now(tz1)
         if len(args) == 1:
-            current_time1 = date_time.strftime("%H:%M:%S")
-            await ctx.send(current_time1)
+            current_time = date_time1.strftime("%H:%M:%S")
+            await ctx.send(current_time)
         elif len(args) == 3:
-            # convert given time og tz1 to tz2
+            # convert given time of tz1 to tz2
             try:
                 tz2 = pytz.timezone(tz_names[args[1].upper()])
             except KeyError:
                 await ctx.send("Not a valid timezone")
-            date_time2 = datetime.now(tz2)
-            pass
-        else:
-            return
+                return
+            # TODO: Only works for converting for current time, will fix later to generalize for specified time
+            to_convert = datetime.now(tz1)
+            to_convert = to_convert.replace(hour=int(args[2].split(':')[0]), minute=int(args[2].split(':')[1]))
+            utc_time = to_convert.astimezone(pytz.utc)
+            utc_time = utc_time.replace(tzinfo=None)
+
+            date_time2 = pytz.utc.localize(utc_time, is_dst=None).astimezone(tz2)
+            converted = date_time2.strftime("%H:%M")
+            await ctx.send(converted)
+    else:
+        await ctx.send("<:ogu_sed:640641724968075284>")
+        await ctx.send("You have to give me either 1 timezone `ogu time pst`\n"
+                       "or 2 timezones and a time(hour:minute) `ogu time pst jst 15:00`")
+        return
 
 
 @bot.event

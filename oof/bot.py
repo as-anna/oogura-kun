@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from discord.ext import commands
 from datetime import datetime
 import pytz
+import requests
 
 
 load_dotenv()
@@ -66,6 +67,11 @@ async def time(ctx, *args):
         return
 
 
+@bot.command(name='md')
+async def md(ctx):
+    pass
+
+
 @bot.event
 async def on_message(message):
     await bot.process_commands(message)
@@ -75,5 +81,7 @@ async def on_message(message):
         await message.channel.send("Okaeri!")
     elif 'otsu' in message.content.lower():
         await message.channel.send("Otsukare!")
+    elif 'merry christmas' in message.content.lower():
+        await message.channel.send("Merry Christmas! :confetti_ball:")
 
 bot.run(TOKEN)

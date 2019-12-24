@@ -1,0 +1,23 @@
+{
+  "name": "oogura-kun",
+  "version": "1.0.0",
+  "description": "Private Discord Bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/as-anna/oogura-kun.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/as-anna/oogura-kun/issues"
+  },
+  "homepage": "https://github.com/as-anna/oogura-kun#readme",
+  "dependencies": {
+    "discord.js": "^11.5.1"
+  }
+}

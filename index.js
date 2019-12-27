@@ -27,6 +27,8 @@ client.on('message', (message) => {
 		client.commands.get('ping').execute(message, args);
 	} else if (command === 'server') {
         client.commands.get('server').execute(message, args);
+    } else if (command === 'user') {
+        client.commands.get('user').execute(message, args);
     }
 });
 

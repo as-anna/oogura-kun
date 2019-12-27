@@ -6,5 +6,5 @@ module.exports = {
                             + `Region: ${message.guild.region}\n`
                             + `Total Member Count: ${message.guild.memberCount}\n`
                             + `Created On: ${message.guild.createdAt}`);
-    }
+    },
 };

@@ -12,6 +12,8 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command);
 }
 
+const cooldowns = new Discord.Collection();
+
 client.on('message', (message) => {
 	if (!message.content.startsWith(prefix) || message.author.bot) {
 		if (message.content.toLowerCase().includes('tadaima') && !message.author.bot) {
@@ -27,9 +29,39 @@ client.on('message', (message) => {
 
 	const command = client.commands.get(commandName);
 
-	if (command.args && !args.length) {
-		return message.channel.send('No arguments provided');
+	if (command.guildOnly && message.channel.type !== 'text') {
+		return message.reply('This command won\'t work in DMs');
 	}
+
+	if (command.args && !args.length) {
+		let reply = 'Eh~ That\'s not the right way to use this command~';
+
+		if (command.usage) {
+			reply += `\nUse: \`${prefix}${command.name} ${command.usage}\``;
+		}
+
+		return message.channel.send(reply);
+	}
+
+	if (!cooldowns.has(command.name)) {
+		cooldowns.set(command.name, new Discord.Collection());
+	}
+
+	const now = Date.now();
+	const timestamps = cooldowns.get(command.name);
+	const cooldownAmount = (command.cooldown || 3) * 1000;
+
+	if (timestamps.has(message.author.id)) {
+		const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+
+		if (now < expirationTime) {
+			const timeLeft = (expirationTime - now) / 1000;
+			return message.reply(`Calm down. Wait ${timeLeft.toFixed(1)} seconds before reusing command`);
+		}
+	}
+
+	timestamps.set(message.author.id, now);
+	setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
 	try {
 		command.execute(message, args);

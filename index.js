@@ -13,29 +13,37 @@ for (const file of commandFiles) {
 }
 
 client.on('message', (message) => {
-    if (!message.content.startsWith(prefix) || message.author.bot){
-        if (message.content.toLowerCase().includes('tadaima') && !message.author.bot){
-            message.channel.send(`Okaeri!`);
-        }
-        return;
-    }
+	if (!message.content.startsWith(prefix) || message.author.bot) {
+		if (message.content.toLowerCase().includes('tadaima') && !message.author.bot) {
+			message.channel.send('Okaeri!');
+		}
+		return;
+	}
 
 	const args = message.content.slice(prefix.length).split(/ +/);
-	const command = args.shift().toLowerCase();
+	const commandName = args.shift().toLowerCase();
 
-    if (command === 'ping') {
-		client.commands.get('ping').execute(message, args);
-	} else if (command === 'server') {
-        client.commands.get('server').execute(message, args);
-    } else if (command === 'user') {
-        client.commands.get('user').execute(message, args);
-    }
+	if (!client.commands.has(commandName)) return;
+
+	const command = client.commands.get(commandName);
+
+	if (command.args && !args.length) {
+		return message.channel.send('No arguments provided');
+	}
+
+	try {
+		command.execute(message, args);
+	}
+	catch (error) {
+		console.error(error);
+		message.reply('there was an error trying to execute that command!');
+	}
 });
 
 client.once('ready', () => {
-    console.log('Oogura-kun is now connected');
+	console.log('Oogura-kun is now connected');
 
-    // client.channels.find(x => x.name === 'oogura-dev').send("Hey");
+	// client.channels.find(x => x.name === 'oogura-dev').send("Hey");
 });
 
 client.login(token);

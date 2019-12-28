@@ -30,20 +30,24 @@ client.on('message', (message) => {
 
 	if (!command) return;
 
+	// Command checks:
+	// guild only
 	if (command.guildOnly && message.channel.type !== 'text') {
 		return message.reply('This command won\'t work in DMs');
 	}
 
+	// args required
 	if (command.args && !args.length) {
 		let reply = 'Eh~ That\'s not the right way to use this command~';
 
 		if (command.usage) {
-			reply += `\nUse: \`${prefix}${command.name} ${command.usage}\``;
+			reply += `\nTry: \`${prefix}${command.name} ${command.usage}\``;
 		}
 
 		return message.channel.send(reply);
 	}
 
+	// cooldowns
 	if (!cooldowns.has(command.name)) {
 		cooldowns.set(command.name, new Discord.Collection());
 	}
@@ -60,6 +64,8 @@ client.on('message', (message) => {
 			return message.reply(`Calm down. Wait ${timeLeft.toFixed(1)} seconds before reusing command`);
 		}
 	}
+
+	// TODO: admin-only check
 
 	timestamps.set(message.author.id, now);
 	setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);

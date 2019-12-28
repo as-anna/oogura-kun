@@ -1,8 +1,6 @@
-// const { GraphQLClient } = require('graphql-request');
 const fetch = require('isomorphic-fetch');
 const util = require('util');
-const query = require('../aniQuery');
-// const query = require('../aniQuery');
+const query = require('../queries/aniQuery');
 
 module.exports = {
 	name: 'anilist',
@@ -11,7 +9,8 @@ module.exports = {
 	execute(message, args) {
 
 		const variables = {
-			id: 104052,
+			type: args[0],
+			search: args.slice(1).join(' '),
 		};
 
 		const url = 'https://graphql.anilist.co',
@@ -37,35 +36,15 @@ module.exports = {
 			});
 		}
 
-		function handleData(data) {
-			console.log(util.inspect(data.data.Media.title, false, null, true));
+		function handleData(resp) {
+			console.log(util.inspect(resp.data.Media.title, false, null, true));
+			message.channel.send(resp.data.Media.title.romaji);
+			message.channel.send(resp.data.Media.type);
 		}
 
 		function handleError(error) {
 			console.error(error);
 		}
-
-		/*
-		const client = new GraphQLClient(url, {
-			redirect: 'follow',
-		});
-
-		message.channel.send(args);
-		message.channel.send(client.url);
-
-		const response = client.request(query, {
-			search: args[0],
-			type: 'ANIME',
-		})
-			.then(data => data)
-			.catch(error => ({
-				error: console.log(error),
-			}));
-
-		const dat = response.Media;
-
-		message.channel.send(dat);
-		*/
 	},
 
 };

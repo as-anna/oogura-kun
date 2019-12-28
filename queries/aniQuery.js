@@ -1,8 +1,8 @@
 module.exports = `
-query ($search: String, $type: MediaType, $id: Int) {
-    Media(search: $search, type: $type, id: $id) {
-        id
-        siteUrl
+query ($search: String, $type: MediaType) {
+    Media(search: $search, type: $type) {
+		id
+		type
         title {
 			romaji
 			english
@@ -13,7 +13,6 @@ query ($search: String, $type: MediaType, $id: Int) {
         }
         status
         description(asHtml: true)
-        averageScore
     }
 }
 `;

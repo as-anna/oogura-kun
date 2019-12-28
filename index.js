@@ -75,8 +75,6 @@ client.on('message', (message) => {
 
 client.once('ready', () => {
 	console.log('Oogura-kun is now connected');
-
-	// client.channels.find(x => x.name === 'oogura-dev').send("Hey");
 });
 
 client.login(token);

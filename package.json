@@ -18,6 +18,11 @@
   },
   "homepage": "https://github.com/as-anna/oogura-kun#readme",
   "dependencies": {
-    "discord.js": "^11.5.1"
+    "discord.js": "^11.5.1",
+    "graphql-request": "^1.8.2",
+    "isomorphic-fetch": "^2.2.1"
+  },
+  "devDependencies": {
+    "@types/node-fetch": "^2.5.4"
   }
 }

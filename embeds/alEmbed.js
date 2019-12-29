@@ -20,8 +20,9 @@ module.exports = function(media) {
 
 	const embed = {
 		color: color,
-		title: `${media.data.Media.title.romaji} (${media.data.Media.title.native})`,
-		description: media.data.Media.description,
+		title: `${media.data.Media.title.romaji} (${media.data.Media.title.native})`
+			|| media.data.Media.title.native,
+		description: media.data.Media.description.replace(/<br\s*\/?>/gi, ' '),
 		thumbnail: {
 			url: media.data.Media.coverImage.large,
 		},
@@ -39,14 +40,19 @@ module.exports = function(media) {
 	if (media.data.Media.type == 'ANIME') {
 		fields.push({
 			name: 'Episodes: ',
-			value: media.data.Media.episodes,
+			value: media.data.Media.episodes || 'Unknown',
 			inline: true,
 		});
 	}
 	else if (media.data.Media.type == 'MANGA') {
 		fields.push({
 			name: 'Chapters: ',
-			value: media.data.Media.chapters,
+			value: media.data.Media.chapters || 'Unknown',
+			inline: true,
+		},
+		{
+			name: 'Volumes: ',
+			value: media.data.Media.volumes || 'Unknown',
 			inline: true,
 		});
 	}

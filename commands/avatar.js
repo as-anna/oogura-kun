@@ -4,11 +4,11 @@ module.exports = {
 	description: 'Displays the user\'s or tagged user\'s avatar.',
 	execute(message) {
 		if (!message.mentions.users.size) {
-			return message.channel.send(`${message.author.username}'s avatar:\n`
-						+ `${message.author.displayAvatarURL}`);
+			const avaEmbed = require('../embeds/avaEmbed')(message.author);
+			return message.channel.send({ embed: avaEmbed });
 		}
 
-		return message.channel.send(`${message.mentions.users.last().username}'s avatar:\n`
-						+ `${message.mentions.users.last().displayAvatarURL}`);
+		const avaEmbed = require('../embeds/avaEmbed')(message.mentions.users.last());
+		return message.channel.send({ embed: avaEmbed });
 	},
 };

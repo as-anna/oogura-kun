@@ -61,7 +61,7 @@ client.on('message', (message) => {
 
 		if (now < expirationTime) {
 			const timeLeft = (expirationTime - now) / 1000;
-			return message.reply(`Calm down. Wait ${timeLeft.toFixed(1)} seconds before reusing command`);
+			return message.reply(`Calm down. Wait ${timeLeft.toFixed(1)} more seconds, okay?`);
 		}
 	}
 
@@ -81,6 +81,7 @@ client.on('message', (message) => {
 
 client.once('ready', () => {
 	console.log('Oogura-kun is now connected');
+	client.user.setActivity('with Mona-chan');
 });
 
 client.login(token);

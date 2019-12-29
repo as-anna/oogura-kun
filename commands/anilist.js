@@ -46,6 +46,7 @@ module.exports = {
 
 		function handleError(error) {
 			console.log(error);
+			message.channel.send('No such media found.');
 		}
 	},
 

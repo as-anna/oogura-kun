@@ -8,8 +8,10 @@ module.exports = {
 	description: 'Access some features of anilist ig',
 	execute(message, args) {
 
+		if (args[0] == 'a') args[0] = 'ANIME';
+		else if (args[0] == 'm') args[0] = 'MANGA';
 		const variables = {
-			type: args[0],
+			type: args[0].toUpperCase(),
 			search: args.slice(1).join(' '),
 		};
 
@@ -38,12 +40,12 @@ module.exports = {
 
 		function handleData(resp) {
 			console.log(util.inspect(resp.data.Media.title, false, null, true));
-			message.channel.send(resp.data.Media.title.romaji);
-			message.channel.send(resp.data.Media.type);
+			const aniEmbed = require('../embeds/alEmbed')(resp);
+			message.channel.send({ embed: aniEmbed });
 		}
 
 		function handleError(error) {
-			console.error(error);
+			console.log(error);
 		}
 	},
 

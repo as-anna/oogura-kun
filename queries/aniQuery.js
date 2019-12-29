@@ -12,7 +12,9 @@ query ($search: String, $type: MediaType) {
             large
         }
         status
-        description(asHtml: true)
+		description(asHtml: false)
+		episodes
+		chapters
     }
 }
 `;

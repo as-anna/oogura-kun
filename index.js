@@ -65,10 +65,10 @@ client.on('message', (message) => {
 		}
 	}
 
-	// TODO: admin-only check
-
 	timestamps.set(message.author.id, now);
 	setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+
+	// TODO: admin-only check
 
 	try {
 		command.execute(message, args);

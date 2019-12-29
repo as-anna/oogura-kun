@@ -2,10 +2,10 @@ module.exports = `
 query ($search: String, $type: MediaType) {
     Media(search: $search, type: $type) {
 		id
+		idMal
 		type
         title {
 			romaji
-			english
 			native
         }
         coverImage {
@@ -15,6 +15,13 @@ query ($search: String, $type: MediaType) {
 		description(asHtml: false)
 		episodes
 		chapters
+		volumes
+		season
+		seasonYear
+		format
+		genres
+		averageScore
+		source
     }
 }
 `;

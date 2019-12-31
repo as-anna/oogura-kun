@@ -1,10 +1,10 @@
 const util = require('util');
 const fetch = require('isomorphic-fetch');
-const mQuery = require('../queries/aniQuery');
+const mQuery = require('../queries/alQueryMedia');
 
 module.exports = {
 	name: 'anilist',
-	aliases: ['ani'],
+	aliases: ['ani', 'al'],
 	description: 'Access some features of anilist ig',
 	execute(message, args) {
 
@@ -42,6 +42,10 @@ module.exports = {
 				return response.ok ? json : Promise.reject(json);
 			});
 		}
+
+		// character
+
+		// industry
 
 		function handleData(resp) {
 			console.log(util.inspect(resp.data.Media.title, false, null, true));

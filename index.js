@@ -19,6 +19,9 @@ client.on('message', (message) => {
 		if (message.content.toLowerCase().includes('tadaima') && !message.author.bot) {
 			message.channel.send('Okaeri!');
 		}
+		else if (message.content.toLowerCase().includes('good job ogu') && !message.author.bot) {
+			message.channel.send('Thanks!');
+		}
 		return;
 	}
 
@@ -69,6 +72,9 @@ client.on('message', (message) => {
 	setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
 	// TODO: admin-only check
+	if (command.adminOnly && !((message.member.permissions & 0x00000008) == 0x00000008)) {
+		return message.reply('Sorry! That command\'s for admins only!');
+	}
 
 	try {
 		command.execute(message, args);
@@ -82,6 +88,17 @@ client.on('message', (message) => {
 client.once('ready', () => {
 	console.log('Oogura-kun is now connected');
 	client.user.setActivity('with Mona-chan');
+
+	/*
+	let x = 0;
+	let interval = setInterval (function() {
+		console.log(`${x} time`);
+		x++;
+	}, 10 * 1000);
+
+	interval = 0;
+	console.log(interval);
+	*/
 });
 
 client.login(token);

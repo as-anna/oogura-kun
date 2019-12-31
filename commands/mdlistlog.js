@@ -13,12 +13,15 @@ module.exports = {
 			const list = new mdApi.MDList();
 
 			getPages(args[0]).then((pages) => {
+				message.channel.send(`id ${args[0]}, right? Logging...`);
 				list.fill(args[0], pages)
 					.then(()=>{
 						const file = fs.createWriteStream(`./mdlists/${args[0]}_list.txt`);
 						file.on('error', function(error) {
 							console.log(error);
 						});
+
+						file.write(message.author.id + '\n');
 
 						const newUpdates = [];
 						let x = 0;
@@ -32,17 +35,15 @@ module.exports = {
 						});
 
 						file.end();
-						console.log('done');
+
+						return message.channel.send(`Done logging list id ${args[0]}!`);
 
 					}).catch(console.error);
 			});
-
-
 		}).catch((error) => {
+			message.channel.send('Something went wrong; check your id!');
 			return console.log(error);
 		});
-
-		return message.channel.send(args);
 
 		async function getPages(id) {
 			const pages = await mdApi.MDList.getNumberOfPages(id);

@@ -2,5 +2,6 @@
 .env
 
 config.json
-mdlists/11530_list.txt
+mdlists/
 node_modules/
+.VSCodeCounter/

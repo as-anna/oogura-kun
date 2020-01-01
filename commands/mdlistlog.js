@@ -16,25 +16,13 @@ module.exports = {
 				message.channel.send(`id ${args[0]}, right? Logging...`);
 				list.fill(args[0], pages)
 					.then(()=>{
-						const file = fs.createWriteStream(`./mdlists/${args[0]}_list.txt`);
-						file.on('error', function(error) {
-							console.log(error);
-						});
 
-						file.write(message.author.id + '\n');
-
-						const newUpdates = [];
-						let x = 0;
 						list.manga.forEach(manga => {
-							newUpdates[x] = manga.id;
-							x++;
+							// eslint-disable-next-line max-nested-callbacks
+							fs.appendFile(`./mdlists/${manga.id}.txt`, message.author.id, (error) => {
+								if (error) throw error;
+							});
 						});
-
-						newUpdates.forEach(mangaID => {
-							file.write(mangaID + '\n');
-						});
-
-						file.end();
 
 						return message.channel.send(`Done logging list id ${args[0]}!`);
 

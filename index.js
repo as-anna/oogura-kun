@@ -89,16 +89,23 @@ client.once('ready', () => {
 	console.log('Oogura-kun is now connected');
 	client.user.setActivity('with Mona-chan');
 
-	/*
-	let x = 0;
 	let interval = setInterval (function() {
-		console.log(`${x} time`);
-		x++;
-	}, 10 * 1000);
+
+		const command = client.commands.get('mangadex');
+		const channel = client.channels.get('662065417279504384');
+
+		try {
+			command.execute(channel);
+			console.log('track --------------');
+		}
+		catch (error) {
+			console.error(error);
+			channel.send('there was an error trying to execute that command!');
+		}
+	}, 10 * 90000);
 
 	interval = 0;
 	console.log(interval);
-	*/
 });
 
 client.login(token);

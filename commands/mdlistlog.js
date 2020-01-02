@@ -19,7 +19,7 @@ module.exports = {
 
 						list.manga.forEach(manga => {
 							// eslint-disable-next-line max-nested-callbacks
-							fs.appendFile(`./mdlists/${manga.id}.txt`, message.author.id, (error) => {
+							fs.appendFile(`./mdlists/${manga.id}.txt`, `${message.author.id}\n`, (error) => {
 								if (error) throw error;
 							});
 						});

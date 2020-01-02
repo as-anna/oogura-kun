@@ -1,42 +1,48 @@
 const mdApi = require('mangadex-full-api');
 const { mdUser, mdPass } = require('../config.json');
 const newLimit = 10;
+const fs = require('fs');
 
 module.exports = {
 	name: 'mangadex',
 	aliases: ['md'],
 	description: 'Fetches latest updates of followed manga',
-	execute(message) {
+	execute(channel) {
 		mdApi.agent.login(mdUser, mdPass, false).then(() => {
-			/**
-			const manga = new mdApi.Manga();
 
-			manga.fillByQuery('Oyasumi Punpun').then((media) => {
-				console.log(`${media.title} by ${media.authors.join(', ')}`);
-			});
-			*/
-
+			const oldUpdates = fs.readFileSync('./mdlists/updates.txt').toString().split('\n');
+			console.log(oldUpdates.join(', '));
 			const home = new mdApi.Home();
 
 			home.fill().then(() => {
 				const newest = home.newest.slice(0, newLimit);
 
-				const newestTitles = [];
+				newest.forEach((manga) => {
+					if (!oldUpdates.includes(manga.id) && fs.existsSync(`./mdlists/${manga.id}.txt`)) {
+						let tags = fs.readFileSync(`./mdlists/${manga.id}.txt`).toString().split('\n');
+						tags.splice(-1, 1);
+						tags = tags.map(id => '<@' + id.toString() + '>');
+						console.log(tags);
+						// TODO: Make a neat embed for update
+						channel.send(`${manga.title} updated, ${tags.join(' ')}`);
+					}
+				});
 
-				let x = 0;
-				for (x = 0; x < newLimit; x++) {
-					newestTitles[x] = newest[x].id;
-					console.log(`${newest[x].id}`);
-				}
+				fs.writeFile('./mdlists/updates.txt', newest.map(manga => manga.id).join('\n'), (error) => {
+					if (error) console.log(error);
+				});
 
-				// const newUpdates = [];
-				message.channel.send(newestTitles.join(', '));
 			});
+
+			oldUpdates.forEach(mangaID => {
+				console.log(mangaID);
+			});
+
 
 		}).catch((error) => {
 			return console.log(error);
 		});
 
-		return message;
+		return;
 	},
 };
